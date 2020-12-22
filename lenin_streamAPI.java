@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
 public class streamAPI {
@@ -41,18 +42,25 @@ class Second{
     void wordUsageMap(List<String> words){
 //        Map<Integer, List<String>> wordsSet = words.stream().collect(groupingBy(String::length));
 //        System.out.println(wordsSet);
-        Map<String, Long> list = words.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+        Map<String, Long> list = words.stream().collect(Collectors.groupingBy(Function.identity(), counting()));
         System.out.println(list);
     }
     void wordUsageMapLimited(List<String> words){
-        Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+        Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).collect(Collectors.groupingBy(Function.identity(), counting()));
     }
     void wordUsageMapLimitedLexicography(List<String> words){
-        Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
-
+        Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).sorted().collect(Collectors.groupingBy(Function.identity(), counting()));
     }
 }
-
+class Third{
+    void mapping(List<String> words){
+        Map<Integer, Long> wordMap = words.stream().collect(groupingBy(String::length, counting()));
+        System.out.println(wordMap);
+    }
+}
+class Four{
+    
+}
 class Lenin{
     static List<String> getWords(String filename) throws IOException {
         var splitter = Pattern.compile("[\\p{Punct}\\d\\s«…»–]+");
