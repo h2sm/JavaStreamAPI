@@ -1,3 +1,4 @@
+import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,15 +8,16 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 public class streamAPI {
     public static void main(String[] args) throws IOException {
-        new Lenin();//новый ленин
+        new Lenin();//хихи хаха хохо мне не до шуток
         List<String> words = Lenin.getWords("D:/Java_laba/lenin_laba/lenin.txt");
         //new First().withoutCapital(words);
-        new Second().wordUsageMap(words);
+        //new Second().wordUsageMap(words);
+        //new Four(words).charCount();
+        new Five(words).charUsage();
     }
 }
 
@@ -59,8 +61,31 @@ class Third{
     }
 }
 class Four{
-    
+    List<String> words;
+    Four(List<String> words){
+        this.words = words;
+    }
+    void charCount(){
+        long count = words.stream().flatMap(x -> x.chars().mapToObj(i -> (char) i)).count();
+        System.out.println(count);
+    }
 }
+class Five{
+    List<String> words;
+    Five(List<String> words){
+        this.words = words;
+    }
+    void charUsage(){
+        //Map<Object, Long> frequency = words.stream().collect(groupingBy(x->x.chars().mapToObj(i->(char) i), Collectors.counting()));
+        words.stream()
+                .flatMap(x-> Arrays.stream(x.split("")))
+                .collect(groupingBy(x->x, Collectors.counting()))
+                .forEach((k,v) -> System.out.println(k + " -> " + v));
+
+    }
+}
+
+
 class Lenin{
     static List<String> getWords(String filename) throws IOException {
         var splitter = Pattern.compile("[\\p{Punct}\\d\\s«…»–]+");
@@ -73,191 +98,3 @@ class Lenin{
         Files.write(Path.of(filename), lines);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-я так устал
