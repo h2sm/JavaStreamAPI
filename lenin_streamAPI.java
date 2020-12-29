@@ -17,7 +17,8 @@ public class streamAPI {
         //new First().withoutCapital(words);
         //new Second().wordUsageMap(words);
         //new Four(words).charCount();
-        new Five(words).charUsage();
+        //new Five(words).charUsage();
+        new Five(words).decreasingUse();
     }
 }
 
@@ -72,17 +73,34 @@ class Four{
 }
 class Five{
     List<String> words;
+    Map<String, Long> map = new TreeMap<>();
+    Map<Long, String> map1 = new TreeMap<>(Collections.reverseOrder());
     Five(List<String> words){
         this.words = words;
     }
     void charUsage(){
-        //Map<Object, Long> frequency = words.stream().collect(groupingBy(x->x.chars().mapToObj(i->(char) i), Collectors.counting()));
         words.stream()
                 .flatMap(x-> Arrays.stream(x.split("")))
                 .collect(groupingBy(x->x, Collectors.counting()))
-                .forEach((k,v) -> System.out.println(k + " -> " + v));
-
+                .forEach((k,v) -> map.put(k,v));
+        System.out.println(map);
     }
+    void decreasingUse(){
+        words.stream()
+                .flatMap(x-> Arrays.stream(x.split("")))
+                .collect(groupingBy(x->x, Collectors.counting()))
+                .forEach((k,v) -> map1.put(v,k));
+        System.out.println(map1);
+    }
+
+}
+class Six{
+    List<String> words;
+
+    Six(List<String> wrds){
+        this.words = wrds;
+    }
+
 }
 
 
