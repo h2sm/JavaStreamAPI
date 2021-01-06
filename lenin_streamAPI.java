@@ -12,33 +12,39 @@ public class streamAPI {
     public static void main(String[] args) throws IOException {
         new Lenin();//хихи хаха хохо мне не до шуток
         List<String> words = Lenin.getWords("D:/Java_laba/lenin_laba/lenin.txt");
-        //new First().withoutCapital(words);
+        new First().withoutCapital(words);
+        //new Second().wordUsage(words);
         //new Second().wordUsageMap(words);
         //new Four(words).charCount();
         //new Five(words).charUsage();
         //new Five(words).decreasingUse();
-        new Six(words).mostUsed();
+        //new Six(words).mostUsed();
     }
 }
 
 class First{
     void withoutCapital(List<String> words){
-        List<String> strings = words.stream()//map(String::toLowerCase) - с учетом регистра
+        List<String> strings = words.stream()
                 .distinct()
                 .collect(Collectors.toList());
         System.out.println(strings);
         lengthSortedLexicography(strings);
     }
     void lengthSortedLexicography(List<String> words){
-        List<String> strings = words.stream().sorted().collect(Collectors.toList());
+        List<String> strings = words.stream().sorted(Comparator.comparingInt(String::length).reversed()).sorted().collect(Collectors.toList());
+        System.out.println(strings);
+        lengthSortedLexicographyLimited(strings);
     }
     void lengthSortedLexicographyLimited(List<String> words){
         List<String> strings = words.stream().filter(a-> a.length()>=4 && a.length()<=7).collect(Collectors.toList());
+        System.out.println(strings);
     }
 }
 class Second{
     void wordUsage(List<String> words){
-      //  List<String> list = words.stream().forEach(words));
+        List<String> sorted = words.stream().distinct().sorted(Comparator.comparingInt(String::length)).collect(toList());
+        System.out.println(sorted);
+
     }
 
     void wordUsageMap(List<String> words){
@@ -99,22 +105,14 @@ class Six{
         this.words = wrds;
     }
     void mostUsed(){
-
-//        words.stream()
-//                .collect(Collectors.groupingBy(
-//                        x->x.length()
-//                        ,Collectors.groupingBy(x->x, Collectors.counting())))
-//                .forEach((k,v) -> System.out.println(k + " -- " + v));
         words.stream()
                 .collect(Collectors.groupingBy(
                         x->x.length()
                         ,Collectors.groupingBy(x->x, Collectors.counting())))
                 .forEach((k,v) -> {
                     v.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(15).forEach((a) -> System.out.println(k + " -- " + a));
-                    //System.out.println(k + "---" + v);
                 });
     }
-
 }
 
 
