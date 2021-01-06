@@ -1,4 +1,3 @@
-import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -6,7 +5,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
@@ -18,7 +16,8 @@ public class streamAPI {
         //new Second().wordUsageMap(words);
         //new Four(words).charCount();
         //new Five(words).charUsage();
-        new Five(words).decreasingUse();
+        //new Five(words).decreasingUse();
+        new Six(words).mostUsed();
     }
 }
 
@@ -96,9 +95,24 @@ class Five{
 }
 class Six{
     List<String> words;
-
     Six(List<String> wrds){
         this.words = wrds;
+    }
+    void mostUsed(){
+
+//        words.stream()
+//                .collect(Collectors.groupingBy(
+//                        x->x.length()
+//                        ,Collectors.groupingBy(x->x, Collectors.counting())))
+//                .forEach((k,v) -> System.out.println(k + " -- " + v));
+        words.stream()
+                .collect(Collectors.groupingBy(
+                        x->x.length()
+                        ,Collectors.groupingBy(x->x, Collectors.counting())))
+                .forEach((k,v) -> {
+                    v.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(15).forEach((a) -> System.out.println(k + " -- " + a));
+                    //System.out.println(k + "---" + v);
+                });
     }
 
 }
