@@ -10,15 +10,18 @@ import static java.util.stream.Collectors.*;
 
 public class streamAPI {
     public static void main(String[] args) throws IOException {
-        new Lenin();//хихи хаха хохо мне не до шуток
+        new Lenin();//новый Ленин
         List<String> words = Lenin.getWords("D:/Java_laba/lenin_laba/lenin.txt");
-        //new First().withoutCapital(words);
+        new First().withoutCapital(words);
         new Second().wordUsage(words);
-        //new Second().wordUsageMap(words);
-        //new Four(words).charCount();
-        //new Five(words).charUsage();
-        //new Five(words).decreasingUse();
-        //new Six(words).mostUsed();
+        new Second().wordUsageMap(words);
+        new Second().wordUsageMapLimited(words);
+        new Second().wordUsageMapLimitedLexicography(words);
+        new Third().mapping(words);
+        new Four(words).charCount();
+        new Five(words).charUsage();
+        new Five(words).decreasingUse();
+        new Six(words).mostUsed();
     }
 }
 
@@ -42,7 +45,7 @@ class First{
 }
 class Second{
     void wordUsage(List<String> words){
-        words.stream().collect(Collectors.groupingBy(x->x,Collectors.counting())).entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        words.stream().collect(Collectors.groupingBy(x->x,Collectors.counting())).entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).forEach(System.out::println);
         //System.out.println(sorted);
     }
     void wordUsageMap(List<String> words){
