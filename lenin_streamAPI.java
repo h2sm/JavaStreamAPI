@@ -12,8 +12,8 @@ public class streamAPI {
     public static void main(String[] args) throws IOException {
         new Lenin();//хихи хаха хохо мне не до шуток
         List<String> words = Lenin.getWords("D:/Java_laba/lenin_laba/lenin.txt");
-        new First().withoutCapital(words);
-        //new Second().wordUsage(words);
+        //new First().withoutCapital(words);
+        new Second().wordUsage(words);
         //new Second().wordUsageMap(words);
         //new Four(words).charCount();
         //new Five(words).charUsage();
@@ -42,19 +42,16 @@ class First{
 }
 class Second{
     void wordUsage(List<String> words){
-        List<String> sorted = words.stream().distinct().sorted(Comparator.comparingInt(String::length)).collect(toList());
-        System.out.println(sorted);
-
+        words.stream().collect(Collectors.groupingBy(x->x,Collectors.counting())).entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        //System.out.println(sorted);
     }
-
     void wordUsageMap(List<String> words){
-//        Map<Integer, List<String>> wordsSet = words.stream().collect(groupingBy(String::length));
-//        System.out.println(wordsSet);
         Map<String, Long> list = words.stream().collect(Collectors.groupingBy(Function.identity(), counting()));
         System.out.println(list);
+
     }
     void wordUsageMapLimited(List<String> words){
-        Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).collect(Collectors.groupingBy(Function.identity(), counting()));
+       words.stream().filter(a->a.length()>=4&&a.length()<=7).collect(Collectors.groupingBy(Function.identity(), counting())).forEach((k,v)-> System.out.println(k + "-" +v ));
     }
     void wordUsageMapLimitedLexicography(List<String> words){
         Map<String, Long> map = words.stream().filter(a->a.length()>=4&&a.length()<=7).sorted().collect(Collectors.groupingBy(Function.identity(), counting()));
